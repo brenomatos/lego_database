@@ -7,8 +7,10 @@ CREATE TABLE IF NOT EXISTS inventory_parts(
   color_id INT,
   quantity INT,
   is_spare VARCHAR(2),
-  PRIMARY KEY(inventory_id)
-  -- FOREIGN KEY(inventory_id) REFERENCES inventories(id);
+  PRIMARY KEY(inventory_id,part_num,color_id),
+  FOREIGN KEY(inventory_id) REFERENCES inventories(id),
+  FOREIGN KEY(part_num) REFERENCES parts(part_num),
+  FOREIGN KEY(color_id) REFERENCES colors(id)
 );
 
 CREATE TABLE IF NOT EXISTS colors(
@@ -17,21 +19,24 @@ CREATE TABLE IF NOT EXISTS colors(
   rgb VARCHAR(40),
   is_trans VARCHAR(2),
   PRIMARY KEY(id)
-  -- FOREIGN KEY(id) REFERENCES inventory_parts(color_id)
+  FOREIGN KEY(id) REFERENCES inventory_parts(color_id)
 );
 
 CREATE TABLE IF NOT EXISTS inventories(
  id INT,
  version INT,
  set_num VARCHAR(20),
- PRIMARY KEY(id)
+ PRIMARY KEY(id),
+ FOREIGN KEY(set_num) REFERENCES sets(set_num)
 );
 
 CREATE TABLE IF NOT EXISTS inventory_sets(
   inventory_id INT,
   set_num VARCHAR(20),
   quantity INT,
-  PRIMARY KEY(inventory_id, set_num, quantity)
+  PRIMARY KEY(inventory_id, set_num, quantity),
+  FOREIGN KEY(inventory_id) REFERENCES inventories(id),
+  FOREIGN KEY(set_num) REFERENCES sets(set_num)
 );
 
 CREATE TABLE IF NOT EXISTS parts(
@@ -47,7 +52,8 @@ CREATE TABLE IF NOT EXISTS sets(
   year INT,
   theme_id INT,
   num_parts INT,
-  PRIMARY KEY(set_num)
+  PRIMARY KEY(set_num),
+  FOREIGN KEY(theme_id) REFERENCES themes(id)
 );
 
 CREATE TABLE IF NOT EXISTS themes(
