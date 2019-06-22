@@ -11,6 +11,7 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
+
 print("Connected!")
 #lendo os dados
 print("Reading input data")
@@ -83,4 +84,6 @@ for invs in inv_sets.values:
     val = (invs[0],invs[1],invs[2])
     mycursor.execute(query, val)
 
+mydb.commit()
+mydb.close()
 print("Done!")
