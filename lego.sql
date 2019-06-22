@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS inventory_parts(
   part_num VARCHAR(200),
   color_id INT,
   quantity INT,
-  is_spare TEXT,
-  PRIMARY KEY(inventory_id,part_num,color_id),
+  is_spare VARCHAR(2),
+  PRIMARY KEY(inventory_id,part_num,color_id,quantity,is_spare),
   FOREIGN KEY(inventory_id) REFERENCES inventories(id),
-  FOREIGN KEY(part_num) REFERENCES parts(part_num),
+  -- FOREIGN KEY(part_num) REFERENCES parts(part_num),
   FOREIGN KEY(color_id) REFERENCES colors(id)
 );
 
