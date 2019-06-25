@@ -1,0 +1,52 @@
+Instalar o MySQL seguindo esse tutorial: https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04
+	Se der algum problema de acesso por causa da senha, seguir o que tá descrito na terceira resposta desse stack ("I had a fresh installation of mysql-server..."): https://stackoverflow.com/questions/42421585/default-password-of-mysql-in-ubuntu-server-16-04
+
+
+Vai pra pasta onde tá o .sql e cessaa o MySQL com o comando seguinte, e aí usa a senha que você escolheu na instalação ali antes:
+	mysql -u root -p -h localhost
+
+
+Aqui você roda um comando por vez, lança o comando e um ';' e dá enter. Criar um banco qualquer e rodar o .sql pra recriar ele:
+	CREATE DATABASE TPFinal;
+	
+	USE TPFinal;
+	
+	autocommit=0 ; source database_dump.sql; COMMIT;
+
+
+Agora o banco foi criado e é só usar no python. Pra ficar tudo certo o único jeito que achei pra fazer funcionar foi usando a biblioteca pymysql, que tem que ser instalada com conda ou pip (com apt-get não deu e vi mais pessoas tendo problemas com isso também, vai entender...):
+	conda install -c anaconda pymysql
+
+
+No python:
+	conn = pymysql.connect(      	host='localhost',
+                             		user='root',
+                             		password='senha_que_vc_escolheu',
+                             		db='TPFinal_ou_nome_do_banco_que_vc_escolheu',
+                             		#charset='utf8mb4',
+                             		cursorclass=pymysql.cursors.DictCursor)
+	
+
+	cursor = conn.cursor()
+
+
+E aí sair rodando tudo. Exemplo:
+	query = 'SELECT * FROM colors LIMIT 5'
+	cursor.execute(query)
+	#result = cursor.fetchone() #esse retorna só o primeiro resultado
+	result = cursor.fetchall()
+
+	for row in result: #cada linha retornada em result é um dicionário
+		print(str(row["id"]) + ' ' + str(row["name"]) + ' ' + str(row['rgb']))
+
+	print(result) #todos resultados
+	print(type(result)) #é uma lista de dicionários/rows de resultado
+	print(type(result[0])) #é um dicionário
+	
+
+
+
+PS: Se você quiser ver todos usuários e localhosts é só rodar esses comandos (que tão no tutorial ali pra caso dê problema com senha):
+	USE mysql;
+	SELECT User, Host, plugin FROM mysql.user;
+
