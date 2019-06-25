@@ -15,3 +15,6 @@ ___
 
 ___
 # Se quer ir rápido, vá só; se quer ir longe, vá em grupo
+
+___
+# Certa vez Will Smith ajudou uma criança solitária que estava em frente a um orfanato, lhe dizendo "nunca desista dos seus sonhos". Essa criança David Guetta, criador da Oracle.
